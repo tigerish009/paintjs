@@ -2,6 +2,8 @@ const canvas = document.getElementById("jsCanvas");
 const ctx = canvas.getContext("2d");
 
 const colors = document.getElementsByClassName("jsColor");
+const range = document.getElementById("jsRange");
+const mode = document.getElementById("jsMode");
 
 // CSS의 canvas사이즈 외에 물리적 canvas의 사이즈를 지정해주지 않으면 작동하지 않는다.
 canvas.width = 700;
@@ -12,6 +14,7 @@ ctx.strokeStyle = "#2c2c2c";
 ctx.lineWidth = 2.5;
 
 let painting = false;
+let filling = false;
 
 function stopPainting(){
     painting = false;
@@ -39,6 +42,21 @@ function handleColorClick(event){
 }
 
 
+function handleRangeChange(event){
+    const size = event.target.value;
+    ctx.lineWidth = size;
+}
+
+function handleModeClick(event){
+    if (filling === true) {
+        filling = false;
+        mode.innerText = "Fill";
+    } else {
+        filling = true;
+        mode.innerText = "Paint";
+    }
+}
+
 
 if(canvas) {
     canvas.addEventListener("mousemove", onMouseMove);
@@ -50,4 +68,12 @@ if(canvas) {
 
 // Array.from은 object로 부터 array를 생성함
 // forEach안의 color라는 단어들은 아무거나 사용가능. object를 대표해주는 단어일뿐
-Array.from(colors).forEach(color => color.addEventListener("click", handleColorClick))
+Array.from(colors).forEach(color => color.addEventListener("click", handleColorClick));
+
+if(range) {
+    range.addEventListener("input", handleRangeChange);
+}
+
+if(mode) {
+    mode.addEventListener("click", handleModeClick);
+}
