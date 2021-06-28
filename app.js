@@ -5,6 +5,8 @@ const colors = document.getElementsByClassName("jsColor");
 const range = document.getElementById("jsRange");
 const mode = document.getElementById("jsMode");
 
+const saveBtn = document.getElementById("jsSave");
+
 
 const INITIAL_COLOR = "#2c2c2c";
 const CANVAS_SIZE = 700;
@@ -13,6 +15,9 @@ const CANVAS_SIZE = 700;
 canvas.width = CANVAS_SIZE;
 canvas.height = CANVAS_SIZE;
 
+// 이미지의 배경을 기본 흰색으로 설정
+ctx.fillStyle = "white";
+ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 
 ctx.strokeStyle = INITIAL_COLOR;
 ctx.fillStyle = INITIAL_COLOR;
@@ -70,6 +75,22 @@ function handleCanvasClick(){
     
 }
 
+// 우클릭 방지 펑션
+function handleCM(event) {
+    event.preventDefault();
+}
+
+function handleSaveClick() {
+    // toDataURL은 저장하기전에 미리 이미지를 떠놓는것
+    const image = canvas.toDataURL("image/jpeg");
+    const link = document.createElement("a");
+    // href는 image(toDataURL)가 되어야 하고,
+    link.href = image;
+    // download는 저장할 파일이름
+    link.download = image;
+    link.click();
+}
+
 
 if(canvas) {
     canvas.addEventListener("mousemove", onMouseMove);
@@ -78,6 +99,7 @@ if(canvas) {
     canvas.addEventListener("mouseup", stopPainting);
     canvas.addEventListener("mouseleave", stopPainting);
     canvas.addEventListener("click", handleCanvasClick);
+    canvas.addEventListener("contextmenu", handleCM);
 }
 
 // Array.from은 object로 부터 array를 생성함
@@ -90,4 +112,8 @@ if(range) {
 
 if(mode) {
     mode.addEventListener("click", handleModeClick);
+}
+
+if(saveBtn) {
+    saveBtn.addEventListener("click", handleSaveClick);
 }
