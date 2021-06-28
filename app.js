@@ -1,8 +1,12 @@
 const canvas = document.getElementById("jsCanvas");
 const ctx = canvas.getContext("2d");
 
+// CSS의 canvas사이즈 외에 물리적 canvas의 사이즈를 지정해주지 않으면 작동하지 않는다.
+canvas.width = 700;
+canvas.height = 700;
 
-ctx.strokeStyle = "##2c2c2c";
+
+ctx.strokeStyle = "#2c2c2c";
 ctx.lineWidth = 2.5;
 
 let painting = false;
@@ -21,7 +25,7 @@ function onMouseMove(event){
         ctx.beginPath();
         ctx.moveTo(x, y);
     } else {
-        ctx.lineto(x, y);
+        ctx.lineTo(x, y);
         ctx.stroke();
     }
 }
